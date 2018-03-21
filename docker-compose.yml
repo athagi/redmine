@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  redmine:
+    image: redmine
+    restart: always
+    ports:
+      - 80:3000
+    volumes:
+      - $PWD/redmine/files:/usr/src/redmine/files
+      - $PWD/redmine/log:/usr/src/redmine/log
+    environment:
+      REDMINE_DB_MYSQL: db
+      REDMINE_DB_PASSWORD: example
+
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - $PWD/mysql/mysql:/var/lib/mysql
+      - $PWD/mysql/log:/var/log/mysql
+      - $PWD/conf:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: redmine
